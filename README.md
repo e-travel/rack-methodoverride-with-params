@@ -15,7 +15,23 @@ So, if you want to keep your Rails App RESTful and work around theis
 issue (until "Access-Control-Allow-Credentials" works properly),
 one solution is to send everything as a GET, and override as necessary.
 
-See more about CORS at (http://http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/
+See more about CORS at http://http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/
+
+To use this with Rails and the optional "override_any_methods" configuration:
+
+  require File.expand_path('../../lib/rack/rack-methodoverride-with-params', __FILE__)
+
+  Scrappz::Application.configure do
+    config.middleware.delete Rack::MethodOverride
+    config.middleware.insert_before ActionDispatch::Head, Rack::MethodOverrideWithParams, :override_any_method => :true
+  end
+
+Place this in your environment.rb. If you have a custom Rack setup, you might have to tweak the middleware
+that you insert_before. However, since middleware.swap didn't want to take options (I don't think?)
+I did it this way with the delete/insert.
+
+Note: Rails 3 logging still shows the original method - so if you override to _method=POST you'll
+see a GET in the log, yet your RESTful create method will get called.
 
 
 Rack MethodOverride With Params
