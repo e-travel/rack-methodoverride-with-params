@@ -19,12 +19,12 @@ See more about CORS at http://http://www.nczonline.net/blog/2010/05/25/cross-dom
 
 To use this with Rails and the optional "override_any_methods" configuration:
 
-  require File.expand_path('../../lib/rack/rack-methodoverride-with-params', __FILE__)
+    require File.expand_path('../../lib/rack/rack-methodoverride-with-params', __FILE__)
 
-  Scrappz::Application.configure do
-    config.middleware.delete Rack::MethodOverride
-    config.middleware.insert_before ActionDispatch::Head, Rack::MethodOverrideWithParams, :override_any_method => :true
-  end
+    Scrappz::Application.configure do
+        config.middleware.delete Rack::MethodOverride
+        config.middleware.insert_before ActionDispatch::Head, Rack::MethodOverrideWithParams, :override_any_method => :true
+    end
 
 Place this in your environment.rb. If you have a custom Rack setup, you might have to tweak the middleware
 that you insert_before. However, since middleware.swap didn't want to take options (I don't think?)
