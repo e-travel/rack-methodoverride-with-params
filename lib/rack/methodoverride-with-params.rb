@@ -1,8 +1,8 @@
 require 'rack'
-#
+
 module Rack
   class MethodOverrideWithParams < Rack::MethodOverride
-    def initialize(app, opts)
+    def initialize(app, opts={})
       @app = app
       @opts = opts
     end
